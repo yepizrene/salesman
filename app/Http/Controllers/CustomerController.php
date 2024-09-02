@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\customer;
+use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
@@ -12,7 +16,8 @@ class CustomerController extends Controller
    */
   public function index()
   {
-    //
+    $customers = Customer::paginate(5);
+    return Inertia::render('Customers/Index', compact('customers'));
   }
 
   /**
@@ -20,21 +25,22 @@ class CustomerController extends Controller
    */
   public function create()
   {
-    //
+    return Inertia::render('Customers/Create');
   }
 
   /**
    * Store a newly created resource in storage.
    */
-  public function store(Request $request)
+  public function store(StoreCustomerRequest $request)
   {
-    //
+    Customer::create($request->all());
+    return Redirect::route('customers.index');
   }
 
   /**
    * Display the specified resource.
    */
-  public function show(customer $customer)
+  public function show(Customer $user)
   {
     //
   }
@@ -42,24 +48,25 @@ class CustomerController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(customer $customer)
+  public function edit(Customer $customer)
   {
-    //
+    return Inertia::render('Customers/Edit', compact('customer'));
   }
 
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, customer $customer)
+  public function update(UpdateCustomerRequest $request, customer $customer)
   {
-    //
+    $customer->update($request->validated());
   }
 
   /**
    * Remove the specified resource from storage.
    */
-  public function destroy(customer $customer)
+  public function destroy(Customer $customer)
   {
-    //
+    $customer->delete();
+    return Redirect::route('customers.index');
   }
 }
