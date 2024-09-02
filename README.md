@@ -87,8 +87,8 @@ php artisan serve
 
 Cuando todo este listo puedes ir a la dirección obtenida en el paso anterior:
 
-- **Username:** johndoe@example.com
-- **Password:** password
+- **Username:** admin@gmail.com
+- **Password:** admin123
 
 Puedes utilizar esas credenciales o puedes registrar un nuevo usuario, para probar la aplicación 
 
