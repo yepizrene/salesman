@@ -6,7 +6,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Pagination from '@/Components/Pagination.vue';
 
 import TrashIcon from '@/Components/icons/TrashIcon.vue';
-import ChevronRightIcon from '@/Components/icons/ChevronRightIcon.vue';
 
 const props = defineProps(['users']);
 
@@ -55,11 +54,6 @@ const createUser = () => {
                 <td class="border-t">
                   <Link class="flex items-center px-6 py-4" :href="route('users.edit', { 'user': user })" tabindex="-1">
                   {{ user.email }}
-                  </Link>
-                </td>
-                <td class="w-px border-t">
-                  <Link class="flex items-center px-4" :href="route('users.edit', { 'user': user })" tabindex="-1">
-                  <chevron-right-icon />
                   </Link>
                 </td>
               </tr>
