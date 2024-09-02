@@ -16,7 +16,7 @@ const createUser = () => {
 </script>
 
 <template>
-  <app-layout title="Users">
+  <app-layout title="Manage users">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Users
