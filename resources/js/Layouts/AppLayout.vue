@@ -29,9 +29,7 @@ const logout = () => {
 
 <template>
   <div>
-
     <Head :title="title" />
-
     <Banner />
 
     <div class="min-h-screen bg-gray-100">
@@ -51,9 +49,6 @@ const logout = () => {
               <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                   Dashboard
-                </NavLink>
-                <NavLink :href="route('users.index')" :active="route().current('users.index')">
-                  Users
                 </NavLink>
               </div>
             </div>
@@ -154,6 +149,10 @@ const logout = () => {
 
                     <DropdownLink :href="route('profile.show')">
                       Profile
+                    </DropdownLink>
+
+                    <DropdownLink :href="route('users.index')" :active="route().current('users.index')">
+                      Manage Users
                     </DropdownLink>
 
                     <DropdownLink v-if="$page.props.jetstream.hasApiFeatures" :href="route('api-tokens.index')">
