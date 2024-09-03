@@ -18,6 +18,7 @@ class OrderController extends Controller
    */
   public function index()
   {
+    
     $orders = Order::with(['user','items','customer'])->paginate(5);
     return Inertia::render('Orders/Index', compact('orders'));
   }

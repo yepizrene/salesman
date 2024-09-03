@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,7 +17,10 @@ class Order extends Model
     'user_id'
   ];
 
-  
+  protected $appends = [
+    'total',
+    'formattedTotal'
+  ];
   
   public function items(){
     return $this->hasMany(OrderItem::class);
@@ -42,13 +46,13 @@ class Order extends Model
     return $this->user->name;
   }
 
-  public function total(){
+  public function getTotalAttribute(){
     return $this->items->map(function($i){
       return $i -> price;
     })->sum();
   }
 
-  public function formattedTotal(){
-    return number_format($this->total(),2);
+  public function getFormattedTotalAttribute(){
+    return number_format($this->getTotalAttribute(),2);
   }
 }
