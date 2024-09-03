@@ -135,7 +135,7 @@ const submit = () => {
                 <div class="flex mt-4">
                   <div class="w-1/2 flex items-center justify-start ">
                     <danger-button @click="modalOpen = true">
-                      delete user
+                      delete customer
                     </danger-button>
                   </div>
                   <div class="w-1/2 flex items-center justify-end">
