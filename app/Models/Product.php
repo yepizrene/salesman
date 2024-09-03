@@ -22,4 +22,8 @@ class Product extends Model
   protected $casts = [
     'status' => 'boolean'
   ];
+
+  public static function getActives(){
+    return Product::where(['status' => true])->get();
+  }
 }
