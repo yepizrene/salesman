@@ -7,12 +7,24 @@ import TrashIcon from '@/Components/icons/TrashIcon.vue';
 import SaveIcon from '@/Components/icons/SaveIcon.vue';
 import NavLink from '@/Components/NavLink.vue';
 import DialogModal from '@/Components/DialogModal.vue';
+import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps(['user', 'customers', 'products']);
 
 //items to order
 const orderProducts = ref([]);
 const orderTotal = ref(0.0);
+
+const order = useForm({
+  user: props.user,
+  items: orderProducts.value,
+  total: orderTotal.value
+});
+
+const submit = () => {
+  order.post(route('orders.store'));
+};
+
 const modalOpen = ref(false);
 
 const addProductToOrder = (product) => {
@@ -88,6 +100,13 @@ const closeModal = () => {
 const saveOrder = () => {
   if (orderProducts.value.length === 0)
     modalOpen.value = true;
+  else{
+    console.log(order);
+    order.items = orderProducts.value;
+    order.total = orderTotal;
+    submit();
+  }
+
 }
 
 
@@ -183,7 +202,7 @@ const saveOrder = () => {
             </table>
           </div>
           <div class="h-36 flex items-center justify-between col-span-3 border rounded-xl p-2">
-            <h1 class="font-bold text-6xl w-2/5"> $ {{ orderTotal.toFixed(2) }}</h1>
+            <h1 class="font-bold text-5xl w-2/5"> $ {{ orderTotal.toFixed(2) }}</h1>
             <primary-button @click="saveOrder"
               class="w-2/5 h-1/2 !text-2xl !font-extrabold bg-green-800 hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:ring-green-900">
               <SaveIcon class="h-full mr-2" /> Save order
