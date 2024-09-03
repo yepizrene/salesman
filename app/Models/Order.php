@@ -19,7 +19,8 @@ class Order extends Model
 
   protected $appends = [
     'total',
-    'formattedTotal'
+    'formattedTotal',
+    'customerName'
   ];
 
   protected $casts = [
@@ -36,13 +37,13 @@ class Order extends Model
     return $this->belongsTo(Customer::class);
   }
 
-  public function getCustomerName()
+  public function getCustomerNameAttribute()
   {
     if ($this->customer) {
       return $this->customer->name;
     }
 
-    return __('customer.working');
+    return 'General customer';
   }
 
   public function user()

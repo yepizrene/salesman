@@ -41,6 +41,7 @@ const createOrder = () => {
               <tr class="text-left font-bold">
                 <th class="pb-4 pt-6 px-6">Id</th>
                 <th class="pb-4 pt-6 px-6">User</th>
+                <th class="pb-4 pt-6 px-6">Customer</th>
                 <th class="pb-4 pt-6 px-6">Items</th>
                 <th class="pb-4 pt-6 px-6">Total</th>
                 <th class="pb-4 pt-6 px-6">Status</th>
@@ -56,6 +57,11 @@ const createOrder = () => {
                 <td class="border-t">
                   <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
                   {{ order.user.name }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
+                  {{ order.customerName }}
                   </Link>
                 </td>
                 <td class="border-t">
