@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import NumberInput from '@/Components/NumberInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import NavLink from '@/Components/NavLink.vue';
@@ -10,8 +11,8 @@ import NavLink from '@/Components/NavLink.vue';
 const form = useForm({
   name: '',
   description: '',
-  price: '0.00',
-  quantity: '0',
+  price: '',
+  quantity: '',
   status: '1'
 });
 
