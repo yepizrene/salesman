@@ -16,6 +16,8 @@ class Order extends Model
     'user_id'
   ];
 
+  
+  
   public function items(){
     return $this->hasMany(OrderItem::class);
   }
@@ -32,10 +34,18 @@ class Order extends Model
     return __('customer.working');
   }
 
+  public function user(){
+    return $this->belongsTo(User::class);
+  }
+
+  public function getUserName(){
+    return $this->user->name;
+  }
+
   public function total(){
     return $this->items->map(function($i){
       return $i -> price;
-    });
+    })->sum();
   }
 
   public function formattedTotal(){
