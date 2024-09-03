@@ -8,7 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -18,7 +18,7 @@ class OrderController extends Controller
    */
   public function index()
   {
-    $orders = Order::paginate(5);
+    $orders = Order::with(['user','items','customer'])->paginate(5);
     return Inertia::render('Orders/Index', compact('orders'));
   }
 
@@ -39,7 +39,21 @@ class OrderController extends Controller
    */
   public function store(StoreOrderRequest $request)
   {
-    //
+    $order = Order::create([
+      'customer_id' => null,
+      'user_id' => $request->user()->id
+    ]);
+
+    $items = $request['items'];
+    foreach($items as $item){
+      $order->items()->create([
+        'price' => $item['price'],
+        'quantity' => $item['quantity'],
+        'product_id' => $item['product']['id']
+      ])->save();
+    }
+
+    return Redirect::route('orders.index');
   }
 
   /**
