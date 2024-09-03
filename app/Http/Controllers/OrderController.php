@@ -54,7 +54,7 @@ class OrderController extends Controller
       ])->save();
     }
 
-    return Redirect::route('orders.index');
+    return Redirect::route('orders.index')->with('message','Order created correctly!');
   }
 
   /**
