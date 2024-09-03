@@ -12,6 +12,7 @@ const props = defineProps(['orders']);
 const createOrder = () => {
   router.get(route('orders.create'));
 }
+
 </script>
 
 <template>
@@ -39,8 +40,10 @@ const createOrder = () => {
             <table class="w-full whitespace-nowrap">
               <tr class="text-left font-bold">
                 <th class="pb-4 pt-6 px-6">Id</th>
-                <th class="pb-4 pt-6 px-6">Client</th>
+                <th class="pb-4 pt-6 px-6">User</th>
+                <th class="pb-4 pt-6 px-6">Items</th>
                 <th class="pb-4 pt-6 px-6">Total</th>
+                <th class="pb-4 pt-6 px-6">Status</th>
               </tr>
               <tr v-for="order in orders.data" :key="order.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                 <td class="border-t">
@@ -52,12 +55,23 @@ const createOrder = () => {
                 </td>
                 <td class="border-t">
                   <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
-                  {{ order.customer }}
+                  {{ order.user.name }}
                   </Link>
                 </td>
                 <td class="border-t">
                   <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
-                  {{ order.total }}
+                  {{ order.items.length }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
+                    {{ order.formattedTotal }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
+                    <span v-if="!order.status" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Canceled</span>
+                    <span v-if="order.status" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
                   </Link>
                 </td>
               </tr>
