@@ -22,7 +22,6 @@ const createOrder = () => {
         Orders
       </h2>
     </template>
-
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -51,33 +50,40 @@ const createOrder = () => {
                   <Link class="flex items-center px-6 py-4 focus:text-indigo-500"
                     :href="route('orders.edit', { 'order': order })">
                   {{ order.id }}
-                  <trash-icon v-if="order.deleted_at"/>
+                  <trash-icon v-if="order.deleted_at" />
                   </Link>
                 </td>
                 <td class="border-t">
-                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })"
+                    tabindex="-1">
                   {{ order.user.name }}
                   </Link>
                 </td>
                 <td class="border-t">
-                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })"
+                    tabindex="-1">
                   {{ order.customerName }}
                   </Link>
                 </td>
                 <td class="border-t">
-                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })"
+                    tabindex="-1">
                   {{ order.items.length }}
                   </Link>
                 </td>
                 <td class="border-t">
-                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
-                    {{ order.formattedTotal }}
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })"
+                    tabindex="-1">
+                  {{ order.formattedTotal }}
                   </Link>
                 </td>
                 <td class="border-t">
-                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })" tabindex="-1">
-                    <span v-if="!order.status" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Canceled</span>
-                    <span v-if="order.status" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
+                  <Link class="flex items-center px-6 py-4" :href="route('orders.edit', { 'order': order })"
+                    tabindex="-1">
+                  <span v-if="!order.status"
+                    class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Canceled</span>
+                  <span v-if="order.status"
+                    class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
                   </Link>
                 </td>
               </tr>
