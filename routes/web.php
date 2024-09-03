@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Redirect;
@@ -26,3 +27,4 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->resource('/users', UserController::class);
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->resource('/dashboard/customers', CustomerController::class);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->resource('/dashboard/products', ProductController::class);
