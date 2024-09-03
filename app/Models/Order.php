@@ -21,38 +21,49 @@ class Order extends Model
     'total',
     'formattedTotal'
   ];
-  
-  public function items(){
+
+  protected $casts = [
+    'status' => 'boolean'
+  ];
+
+  public function items()
+  {
     return $this->hasMany(OrderItem::class);
   }
 
-  public function customer(){
+  public function customer()
+  {
     return $this->belongsTo(Customer::class);
   }
 
-  public function getCustomerName(){
-    if($this->customer){
+  public function getCustomerName()
+  {
+    if ($this->customer) {
       return $this->customer->name;
     }
 
     return __('customer.working');
   }
 
-  public function user(){
+  public function user()
+  {
     return $this->belongsTo(User::class);
   }
 
-  public function getUserName(){
+  public function getUserName()
+  {
     return $this->user->name;
   }
 
-  public function getTotalAttribute(){
-    return $this->items->map(function($i){
-      return $i -> price;
+  public function getTotalAttribute()
+  {
+    return $this->items->map(function ($i) {
+      return $i->price;
     })->sum();
   }
 
-  public function getFormattedTotalAttribute(){
-    return number_format($this->getTotalAttribute(),2);
+  public function getFormattedTotalAttribute()
+  {
+    return number_format($this->getTotalAttribute(), 2);
   }
 }
