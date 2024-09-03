@@ -42,6 +42,7 @@ const createProduct = () => {
                 <th class="pb-4 pt-6 px-6">Description</th>
                 <th class="pb-4 pt-6 px-6">Price</th>
                 <th class="pb-4 pt-6 px-6">Quantity</th>
+                <th class="pb-4 pt-6 px-6">Status</th>
               </tr>
               <tr v-for="product in products.data" :key="product.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                 <td class="border-t">
@@ -55,6 +56,22 @@ const createProduct = () => {
                 <td class="border-t">
                   <Link class="flex items-center px-6 py-4" :href="route('products.edit', { 'product': product })" tabindex="-1">
                   {{ product.description }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('products.edit', { 'product': product })" tabindex="-1">
+                  {{ product.price }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('products.edit', { 'product': product })" tabindex="-1">
+                  {{ product.quantity }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('products.edit', { 'product': product })" tabindex="-1">
+                    <span v-if="!product.status" class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Inactive</span>
+                    <span v-if="product.status" class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Active</span>
                   </Link>
                 </td>
               </tr>
