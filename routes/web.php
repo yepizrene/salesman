@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -25,6 +26,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
   })->name('dashboard');
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->resource('/users', UserController::class);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->resource('/dashboard/customers', CustomerController::class);
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->resource('/dashboard/products', ProductController::class);
+Route::prefix('admin')->middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function() {
+  Route::resource('users', UserController::class);
+  Route::resource('customers', CustomerController::class);
+  Route::resource('products', ProductController::class);
+  Route::resource('orders', OrderController::class);
+});
+
