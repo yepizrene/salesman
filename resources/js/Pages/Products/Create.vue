@@ -7,8 +7,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import NavLink from '@/Components/NavLink.vue';
 
-const props = defineProps(['customers']);
-
 const form = useForm({
   name: '',
   description: '',
@@ -25,7 +23,7 @@ const submit = () => {
 </script>
 
 <template>
-  <AppLayout title="New customer">
+  <AppLayout title="New product">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         <nav-link :href="route('products.index')" class="font-semibold text-xl text-blueberry-600 leading-tight">
