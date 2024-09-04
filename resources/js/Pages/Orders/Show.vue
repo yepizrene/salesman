@@ -13,7 +13,7 @@ const modalOpen = ref(false);
 const canceled = ref(!props.order.status);
 
 const cancelOrder = () => {
-  router.put(route('orders.update',props.order));
+  router.post(route('orders.cancel',{ order: props.order }));
 }
 
 const closeModal = () => {

@@ -81,8 +81,14 @@ class OrderController extends Controller
    */
   public function update(UpdateOrderRequest $request, Order $order)
   {
+    
+  }
+
+  public function cancel(UpdateOrderRequest $request){
+    $order = Order::find($request->order['id']);
     $order->status = false;
-    $order->update($request->validated());
+    $order->save();
+    
     return Redirect::route('orders.index')->with('message','Order canceled correctly!');
   }
 
