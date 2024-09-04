@@ -18,7 +18,7 @@ class OrderController extends Controller
    */
   public function index()
   {
-    $orders = Order::with(['user','items','customer'])->paginate(5);
+    $orders = Order::paginate(5);
     return Inertia::render('Orders/Index', compact('orders'));
   }
 
@@ -73,7 +73,8 @@ class OrderController extends Controller
    */
   public function edit(Order $order)
   {
-    
+    $products = Product::getActives();
+    return Inertia::render('Orders/Edit', compact('order','products'));
   }
 
   /**
