@@ -18,7 +18,22 @@ class OrderItem extends Model
     'order_id'
   ];
 
+  protected $appends = [
+    'product',
+    'formattedPrice',
+  ];
+
+  public function getProductAttribute(){
+    return $this->product()->first();
+  }
+
   public function product(){
     return $this->belongsTo(Product::class);
   }
+
+  public function getFormattedPriceAttribute()
+  {
+    return number_format($this->price, 2);
+  }
+
 }
