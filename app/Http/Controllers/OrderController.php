@@ -18,7 +18,6 @@ class OrderController extends Controller
    */
   public function index()
   {
-    
     $orders = Order::with(['user','items','customer'])->paginate(5);
     return Inertia::render('Orders/Index', compact('orders'));
   }
@@ -62,7 +61,11 @@ class OrderController extends Controller
    */
   public function show(Order $order)
   {
-    //
+    $user = $order->user;
+    $products = Product::getActives();
+    $customers = Customer::all();
+
+    return Inertia::render('Orders/Show', compact('order','user','products'));
   }
 
   /**
@@ -70,7 +73,7 @@ class OrderController extends Controller
    */
   public function edit(Order $order)
   {
-    //
+    
   }
 
   /**
@@ -78,7 +81,9 @@ class OrderController extends Controller
    */
   public function update(UpdateOrderRequest $request, Order $order)
   {
-    //
+    $order->status = false;
+    $order->update($request->validated());
+    return Redirect::route('orders.index')->with('message','Order canceled correctly!');
   }
 
   /**
