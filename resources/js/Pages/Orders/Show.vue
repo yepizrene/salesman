@@ -7,13 +7,14 @@ import NavLink from '@/Components/NavLink.vue';
 import DialogModal from '@/Components/DialogModal.vue';
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import EditIcon from '@/Components/icons/EditIcon.vue';
 
-const props = defineProps(['order','user', 'products']);
+const props = defineProps(['order', 'user', 'products']);
 const modalOpen = ref(false);
 const canceled = ref(!props.order.status);
 
 const cancelOrder = () => {
-  router.post(route('orders.cancel',{ order: props.order }));
+  router.post(route('orders.cancel', { order: props.order }));
 }
 
 const closeModal = () => {
@@ -22,12 +23,19 @@ const closeModal = () => {
 </script>
 
 <template>
-  <AppLayout title="Show order" :class="{canceled: canceled}">
+  <AppLayout title="Show order" :class="{ canceled: canceled }">
     <template #header>
-      <h2 class="w-full font-semibold text-xl text-gray-800 leading-tight">
-        <nav-link :href="route('orders.index')" class="font-semibold text-xl text-blueberry-600 leading-tight">
-          Orders
-        </nav-link> / order id:{{order.id}} | created by: {{ user.name }} | {{ order.customerName }} | {{ order.items.length }} Items | {{ order.formattedTotal }}
+      <h2 class="w-full flex font-semibold text-xl text-gray-800 leading-tight justify-between">
+        <div>
+          <nav-link :href="route('orders.index')" class="font-semibold text-xl text-blueberry-600 leading-tight">
+            Orders
+          </nav-link> / order id:{{ order.id }} | created by: {{ user.name }} | {{ order.customerName }} | {{
+            order.items.length }} Items | {{ order.formattedTotal }}
+        </div>
+        <nav-link :href="route('orders.edit',{ 'order': order })"  v-if="order.status" class="flex justify-center items-center px-4 py-2 bg-blueberry-800 rounded-md text-sm border border-transparent  text-white hover:text-white active:text-whites focus:text-white uppercase tracking-widest hover:bg-blueberry-700 focus:bg-blueberry-700 active:bg-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+          <EditIcon class="h-8 w-8 mr-4"/> Edit order
+        </nav-link>
+
       </h2>
     </template>
     <div class="py-4">
@@ -57,7 +65,7 @@ const closeModal = () => {
                   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ item.product.name }}
                   </th>
-                  
+
                   <td class="px-6 py-4 flex gap-2">
                     {{ item.quantity }}
                   </td>
@@ -90,7 +98,8 @@ const closeModal = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr class="bg-white border-b cursor-pointer hover:bg-gray-100" v-for="product in products" :key="product.id">
+                <tr class="bg-white border-b cursor-pointer hover:bg-gray-100" v-for="product in products"
+                  :key="product.id">
                   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {{ product.name }}
                   </th>
