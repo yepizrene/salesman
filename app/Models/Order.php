@@ -20,7 +20,7 @@ class Order extends Model
   protected $appends = [
     'total',
     'formattedTotal',
-    'customerName'
+    'customerName',
   ];
 
   protected $casts = [
