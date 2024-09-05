@@ -86,7 +86,7 @@ class OrderController extends Controller
   }
 
   public function cancel(UpdateOrderRequest $request){
-    $order = Order::find($request->order['id']);
+    $order = Order::find($request->all()['id']);
     $order->status = false;
     $order->save();
     
