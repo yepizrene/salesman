@@ -14,7 +14,7 @@ const modalOpen = ref(false);
 const canceled = ref(!props.order.status);
 
 const cancelOrder = () => {
-  router.post(route('orders.cancel'),props.order);
+  router.post(route('orders.cancel'), props.order);
 }
 
 const closeModal = () => {
@@ -31,6 +31,12 @@ const closeModal = () => {
             Orders
           </nav-link> / order id:{{ order.id }} | created by: {{ order.user.name }} | {{ order.customerName }} | {{
             order.items.length }} Items | {{ order.formattedTotal }}
+        </div>
+        <div>
+          <Link :href="route('orders.edit', { 'order': order })" v-if="order.status"
+            class="inline-flex items-center px-4 py-2 bg-blueberry-800 border border-transparent rounded-md font-semibold text-sm text-white hover:text-white focus:text-white uppercase hover:bg-blueberry-700 focus:bg-blueberry-700 active:bg-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+          <EditIcon class="h-6 mr-4" /> Edit order
+          </Link>
         </div>
       </h2>
     </template>
@@ -114,15 +120,11 @@ const closeModal = () => {
           </div>
           <div class="h-36 flex items-center justify-between col-span-3 border rounded-xl p-2">
             <h1 class="font-bold text-5xl w-2/5">$ {{ order.formattedTotal }}</h1>
-            <danger-button v-if="order.status" class="w-3/5 h-1/2 !text-2xl !font-bold" @click="modalOpen = true">
+            <danger-button v-if="order.status" class="w-2/5 h-1/2 !text-2xl !font-bold" @click="modalOpen = true">
               <CircleCrossIcon class="h-full mr-2" /> Cancel order
             </danger-button>
           </div>
           <div class="h-36 flex items-baseline col-span-3 border rounded-xl p-2">
-            <Link :href="route('orders.edit', { 'order': order })" v-if="order.status"
-              class=" inline-flex items-center px-4 py-2 bg-blueberry-800 border border-transparent rounded-md font-semibold text-sm text-white hover:text-white focus:text-white uppercase hover:bg-blueberry-700 focus:bg-blueberry-700 active:bg-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
-            <EditIcon class="h-6 mr-4" /> Edit order
-            </Link>
           </div>
         </div>
       </div>
