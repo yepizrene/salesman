@@ -9,12 +9,12 @@ import { ref } from 'vue';
 import { router, Link } from '@inertiajs/vue3';
 import EditIcon from '@/Components/icons/EditIcon.vue';
 
-const props = defineProps(['order', 'user', 'products']);
+const props = defineProps(['order', 'products']);
 const modalOpen = ref(false);
 const canceled = ref(!props.order.status);
 
 const cancelOrder = () => {
-  router.post(route('orders.cancel', { order: props.order }));
+  router.post(route('orders.cancel'),props.order);
 }
 
 const closeModal = () => {
@@ -29,7 +29,7 @@ const closeModal = () => {
         <div>
           <nav-link :href="route('orders.index')" class="font-semibold text-xl text-blueberry-600 leading-tight">
             Orders
-          </nav-link> / order id:{{ order.id }} | created by: {{ user.name }} | {{ order.customerName }} | {{
+          </nav-link> / order id:{{ order.id }} | created by: {{ order.user.name }} | {{ order.customerName }} | {{
             order.items.length }} Items | {{ order.formattedTotal }}
         </div>
       </h2>
