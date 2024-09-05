@@ -215,7 +215,7 @@ const number_format = (number, decimals, dec_point, thousands_sep) => {
           <div class="h-36 flex items-center justify-between col-span-3 border rounded-xl p-2">
             <h1 class="font-bold text-5xl w-2/5"> $ {{ number_format(order.total, 2) }}</h1>
             <primary-button @click="saveOrder"
-              class="w-3/5 h-1/2 !text-2xl !font-extrabold bg-green-800 hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:ring-green-900">
+              class="w-3/5 h-1/2 !text-2xl flex items-center justify-center !font-extrabold bg-green-800 hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:ring-green-900">
               <SaveIcon class="h-full mr-2" /> Update order
             </primary-button>
           </div>
