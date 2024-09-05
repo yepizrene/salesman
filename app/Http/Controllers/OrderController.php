@@ -61,11 +61,8 @@ class OrderController extends Controller
    */
   public function show(Order $order)
   {
-    $user = $order->user;
     $products = Product::getActives();
-    $customers = Customer::all();
-
-    return Inertia::render('Orders/Show', compact('order','user','products'));
+    return Inertia::render('Orders/Show', compact('order','products'));
   }
 
   /**
