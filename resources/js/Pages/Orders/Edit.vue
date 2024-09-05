@@ -45,7 +45,7 @@ const deleteItem = (item) => {
 }
 
 const getItem = (product) => {
-  let foundItem = order.items.find((item) => item.product === product);
+  let foundItem = order.items.find((item) => item.product.id === product.id);
 
   return foundItem;
 }
@@ -57,7 +57,6 @@ const addProductToOrder = (product) => {
 
   if (!existsItem) {
     order.items.push({ 'product': product, 'quantity': quantity += 1, 'price': price = product.price });
-
     updateOrderTotal();
   }
 
@@ -76,7 +75,8 @@ const addProductToOrder = (product) => {
 
 const isProductAdded = (product) => {
   let isAdded = false;
-  let found = order.items.find((item) => item.product === product);
+  let found = getItem(product);
+
   if (found)
     isAdded = true;
   return isAdded;
