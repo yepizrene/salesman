@@ -6,7 +6,7 @@ import CircleCrossIcon from '@/Components/icons/CircleCrossIcon.vue';
 import NavLink from '@/Components/NavLink.vue';
 import DialogModal from '@/Components/DialogModal.vue';
 import { ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router , Link} from '@inertiajs/vue3';
 import EditIcon from '@/Components/icons/EditIcon.vue';
 
 const props = defineProps(['order', 'user', 'products']);
@@ -32,14 +32,16 @@ const closeModal = () => {
           </nav-link> / order id:{{ order.id }} | created by: {{ user.name }} | {{ order.customerName }} | {{
             order.items.length }} Items | {{ order.formattedTotal }}
         </div>
-        <nav-link :href="route('orders.edit',{ 'order': order })"  v-if="order.status" class="flex justify-center items-center px-4 py-2 bg-blueberry-800 rounded-md text-sm border border-transparent  text-white hover:text-white active:text-whites focus:text-white uppercase tracking-widest hover:bg-blueberry-700 focus:bg-blueberry-700 active:bg-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
-          <EditIcon class="h-8 w-8 mr-4"/> Edit order
-        </nav-link>
-
       </h2>
     </template>
     <div class="py-4">
       <div class="mx-auto sm:px-6 lg:px-8">
+        <div class="flex justify-end mb-10">
+          <Link :href="route('orders.edit', { 'order': order })" v-if="order.status"
+            class=" inline-flex items-center px-4 py-2 bg-blueberry-800 border border-transparent rounded-md font-semibold text-sm text-white hover:text-white focus:text-white uppercase hover:bg-blueberry-700 focus:bg-blueberry-700 active:bg-blueberry-900 focus:outline-none focus:ring-2 focus:ring-blueberry-500 focus:ring-offset-2 disabled:opacity-50 transition ease-in-out duration-150">
+            <EditIcon class="h-6 mr-4" /> Edit order
+          </Link>
+        </div>
         <div class="p-4 h-full bg-white border-b border-gray-200 grid grid-cols-6 gap-2 rounded-md justify-center">
           <div class="h-80 col-span-3 border rounded-xl p-2 overflow-y-scroll">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
