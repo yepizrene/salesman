@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -31,7 +32,7 @@ class OrderController extends Controller
     $products = Product::getActives();
     $customers = Customer::all();
 
-    return Inertia::render('Orders/Create', compact('user','products', 'customers'));
+    return Inertia::render('Orders/Create', compact('user', 'products', 'customers'));
   }
 
   /**
@@ -45,7 +46,7 @@ class OrderController extends Controller
     ]);
 
     $items = $request['items'];
-    foreach($items as $item){
+    foreach ($items as $item) {
       $order->items()->create([
         'price' => $item['price'],
         'quantity' => $item['quantity'],
@@ -53,7 +54,7 @@ class OrderController extends Controller
       ])->save();
     }
 
-    return Redirect::route('orders.index')->with('message','Order created correctly!');
+    return Redirect::route('orders.index')->with('message', 'Order created correctly!');
   }
 
   /**
@@ -62,7 +63,7 @@ class OrderController extends Controller
   public function show(Order $order)
   {
     $products = Product::getActives();
-    return Inertia::render('Orders/Show', compact('order','products'));
+    return Inertia::render('Orders/Show', compact('order', 'products'));
   }
 
   /**
@@ -71,7 +72,7 @@ class OrderController extends Controller
   public function edit(Order $order)
   {
     $products = Product::getActives();
-    return Inertia::render('Orders/Edit', compact('order','products'));
+    return Inertia::render('Orders/Edit', compact('order', 'products'));
   }
 
   /**
@@ -79,15 +80,102 @@ class OrderController extends Controller
    */
   public function update(UpdateOrderRequest $request, Order $order)
   {
-    
+    $orderRequest = json_decode($request->getContent());
+    $orderSaved = json_decode($order);
+
+    $itemsRequest = $orderRequest->items;
+    $itemsSaved = $orderSaved->items;
+
+    $evalItemslength = (count($itemsRequest) > count($itemsSaved));
+    $equalsItemslength = (count($itemsRequest) === count($itemsSaved));
+
+    $option = ($evalItemslength) ? 'major' : (($equalsItemslength) ? 'equals' : 'minor');
+
+    switch ($option):
+      case 'major':
+        //order request items are major of order saved items
+        foreach($orderRequest->deleted_items as $item):
+          $itemDeleted = OrderITem::find($item->id);
+          $itemDeleted->delete();
+          $order->save();
+        endforeach;
+        foreach ($itemsRequest as $item):
+          if ($item->id !== null):
+            $itemSaved = OrderItem::find($item->id);
+            $itemSaved->quantity = $item->quantity;
+            $itemSaved->price = $item->price;
+            $itemSaved->save();
+          endif;
+          if ($item->id === null):
+            $order->items()->create([
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+              'product_id' => $item->product->id
+            ])->save();
+          endif;
+        endforeach;
+        break;
+      case 'minor':
+        //order request items are minor of order saved items
+        foreach($orderRequest->deleted_items as $item):
+          $itemDeleted = OrderITem::find($item->id);
+          $itemDeleted->delete();
+          $order->save();
+        endforeach;
+        foreach ($itemsRequest as $item):
+          if ($item->id !== null):
+            $itemSaved = OrderItem::find($item->id);
+            $itemSaved->quantity = $item->quantity;
+            $itemSaved->price = $item->price;
+            $itemSaved->save();
+          endif;
+          if ($item->id === null):
+            $order->items()->create([
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+              'product_id' => $item->product->id
+            ])->save();
+          endif;
+        endforeach;
+        
+        break;
+      case 'equals':
+        //order request items are equals of order saved items
+        foreach($orderRequest->deleted_items as $item):
+          $itemDeleted = OrderITem::find($item->id);
+          $itemDeleted->delete();
+          $order->save();
+        endforeach;
+        foreach ($itemsRequest as $item):
+          if ($item->id !== null):
+            $itemSaved = OrderItem::find($item->id);
+            $itemSaved->quantity = $item->quantity;
+            $itemSaved->price = $item->price;
+            $itemSaved->save();
+          endif;
+          if ($item->id === null):
+            $order->items()->create([
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+              'product_id' => $item->product->id
+            ])->save();
+          endif;
+        endforeach;
+        break;
+    endswitch;
+
+    return Redirect::route('orders.index');
+    // $order -> update($request -> validated());
+    // return Redirect::route('orders.index')->with('message','Order updated correctly!');
   }
 
-  public function cancel(UpdateOrderRequest $request){
+  public function cancel(UpdateOrderRequest $request)
+  {
     $order = Order::find($request->all()['id']);
     $order->status = false;
     $order->save();
-    
-    return Redirect::route('orders.index')->with('message','Order canceled correctly!');
+
+    return Redirect::route('orders.index')->with('message', 'Order canceled correctly!');
   }
 
   /**
