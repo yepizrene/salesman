@@ -59,7 +59,7 @@ const addProductToOrder = (product) => {
   let price = product.price * 1;
 
   if (!existsItem) {
-    order.items.push({ 'product': product, 'quantity': quantity += 1, 'price': price = product.price });
+    order.items.push({ 'id':null,'product_id': product.id,'order_id':order.id,'product': product, 'quantity': quantity += 1, 'price': price = product.price });
     updateOrderTotal();
   }
 
