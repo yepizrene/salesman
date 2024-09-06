@@ -21,12 +21,17 @@ class Order extends Model
     'total',
     'formattedTotal',
     'customerName',
+    'user',
+    'items'
   ];
 
   protected $casts = [
     'status' => 'boolean'
   ];
 
+  public function getItemsAttribute(){
+    return $this->items()->get();
+  }
   public function items()
   {
     return $this->hasMany(OrderItem::class);
@@ -46,14 +51,13 @@ class Order extends Model
     return 'General customer';
   }
 
+  public function getUserAttribute(){
+    return $this->user()->first();
+  }
+
   public function user()
   {
     return $this->belongsTo(User::class);
-  }
-
-  public function getUserName()
-  {
-    return $this->user->name;
   }
 
   public function getTotalAttribute()
