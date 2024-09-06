@@ -16,7 +16,7 @@ const createOrder = () => {
 </script>
 
 <template>
-  <app-layout title="Products">
+  <app-layout title="Orders">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Orders
