@@ -101,10 +101,7 @@ class OrderController extends Controller
         endforeach;
         foreach ($itemsRequest as $item):
           if ($item->id !== null):
-            $itemSaved = OrderItem::find($item->id);
-            $itemSaved->quantity = $item->quantity;
-            $itemSaved->price = $item->price;
-            $itemSaved->save();
+            $this->updateOrderItem($item);
           endif;
           if ($item->id === null):
             $order->items()->create([
@@ -124,10 +121,7 @@ class OrderController extends Controller
         endforeach;
         foreach ($itemsRequest as $item):
           if ($item->id !== null):
-            $itemSaved = OrderItem::find($item->id);
-            $itemSaved->quantity = $item->quantity;
-            $itemSaved->price = $item->price;
-            $itemSaved->save();
+            $this->updateOrderItem($item);
           endif;
           if ($item->id === null):
             $order->items()->create([
@@ -148,10 +142,7 @@ class OrderController extends Controller
         endforeach;
         foreach ($itemsRequest as $item):
           if ($item->id !== null):
-            $itemSaved = OrderItem::find($item->id);
-            $itemSaved->quantity = $item->quantity;
-            $itemSaved->price = $item->price;
-            $itemSaved->save();
+            $this->updateOrderItem($item);
           endif;
           if ($item->id === null):
             $order->items()->create([
@@ -163,10 +154,15 @@ class OrderController extends Controller
         endforeach;
         break;
     endswitch;
+  }
 
-    return Redirect::route('orders.index');
-    // $order -> update($request -> validated());
-    // return Redirect::route('orders.index')->with('message','Order updated correctly!');
+  private function updateOrderItem($item)
+  {
+    $itemSaved = OrderItem::find($item->id);
+    $itemSaved->quantity = $item->quantity;
+    $itemSaved->price = $item->price;
+    $itemSaved->save();
+  }
   }
 
   public function cancel(UpdateOrderRequest $request)
