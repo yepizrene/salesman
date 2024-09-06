@@ -20,7 +20,8 @@ const order = useForm({
   customer: props.order.customer,
   user: props.order.user,
   items: props.order.items,
-  total: props.order.total
+  total: props.order.total,
+  deleted_items: []
 });
 
 const updateOrderTotal = () => {
@@ -40,6 +41,11 @@ const updateItemQuantity = (item) => {
 }
 
 const deleteItem = (item) => {
+  if(item.id !== null)
+    order.deleted_items.push(item);
+
+  console.log(order.deleted_items);
+
   let index = order.items.indexOf(item);
 
   order.items.splice(index, 1);
