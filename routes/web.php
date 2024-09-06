@@ -31,5 +31,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', config('jetstream.auth_sessi
   Route::resource('customers', CustomerController::class);
   Route::resource('products', ProductController::class);
   Route::resource('orders', OrderController::class);
+  Route::post('orders/cancel', [OrderController::class,"cancel"])->name('orders.cancel');
 });
 
