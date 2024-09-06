@@ -15,6 +15,9 @@ const modalOpen = ref(false);
 const order = useForm({
   _method: 'PUT',
   id: props.order.id,
+  user_id: props.order.user.id,
+  customer_id: props.order.customer_id,
+  customer: props.order.customer,
   user: props.order.user,
   items: props.order.items,
   total: props.order.total
