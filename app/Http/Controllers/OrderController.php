@@ -94,14 +94,17 @@ class OrderController extends Controller
     switch ($option):
       case 'major':
         //order request items are major of order saved items
-        foreach ($orderRequest->deleted_items as $item):
+        foreach($orderRequest->deleted_items as $item):
           $itemDeleted = OrderITem::find($item->id);
           $itemDeleted->delete();
           $order->save();
         endforeach;
         foreach ($itemsRequest as $item):
           if ($item->id !== null):
-            $this->updateOrderItem($item);
+            $itemSaved = OrderItem::find($item->id);
+            $itemSaved->quantity = $item->quantity;
+            $itemSaved->price = $item->price;
+            $itemSaved->save();
           endif;
           if ($item->id === null):
             $order->items()->create([
@@ -114,56 +117,56 @@ class OrderController extends Controller
         break;
       case 'minor':
         //order request items are minor of order saved items
-        foreach ($orderRequest->deleted_items as $item):
+        foreach($orderRequest->deleted_items as $item):
           $itemDeleted = OrderITem::find($item->id);
           $itemDeleted->delete();
           $order->save();
         endforeach;
         foreach ($itemsRequest as $item):
           if ($item->id !== null):
-            $this->updateOrderItem($item);
+            $itemSaved = OrderItem::find($item->id);
+            $itemSaved->quantity = $item->quantity;
+            $itemSaved->price = $item->price;
+            $itemSaved->save();
           endif;
           if ($item->id === null):
-            $this->createOrderItem($order, $item);
+            $order->items()->create([
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+              'product_id' => $item->product->id
+            ])->save();
           endif;
         endforeach;
-
+        
         break;
       case 'equals':
         //order request items are equals of order saved items
-        foreach ($orderRequest->deleted_items as $item):
+        foreach($orderRequest->deleted_items as $item):
           $itemDeleted = OrderITem::find($item->id);
           $itemDeleted->delete();
           $order->save();
         endforeach;
         foreach ($itemsRequest as $item):
           if ($item->id !== null):
-            $this->updateOrderItem($item);
+            $itemSaved = OrderItem::find($item->id);
+            $itemSaved->quantity = $item->quantity;
+            $itemSaved->price = $item->price;
+            $itemSaved->save();
           endif;
           if ($item->id === null):
-            $this->createOrderItem($order, $item);
+            $order->items()->create([
+              'price' => $item->price,
+              'quantity' => $item->quantity,
+              'product_id' => $item->product->id
+            ])->save();
           endif;
         endforeach;
         break;
     endswitch;
 
-    return Redirect::route('orders.index')->with('message', 'Order updated correctly!');
-  }
-
-  private function updateOrderItem($item)
-  {
-    $itemSaved = OrderItem::find($item->id);
-    $itemSaved->quantity = $item->quantity;
-    $itemSaved->price = $item->price;
-    $itemSaved->save();
-  }
-
-  private function createOrderItem(Order $order, $item){
-    $order->items()->create([
-      'price' => $item->price,
-      'quantity' => $item->quantity,
-      'product_id' => $item->product->id
-    ])->save();
+    return Redirect::route('orders.index');
+    // $order -> update($request -> validated());
+    // return Redirect::route('orders.index')->with('message','Order updated correctly!');
   }
 
   public function cancel(UpdateOrderRequest $request)
