@@ -94,7 +94,7 @@ class OrderController extends Controller
     switch ($option):
       case 'major':
         //order request items are major of order saved items
-        foreach($orderRequest->deleted_items as $item):
+        foreach ($orderRequest->deleted_items as $item):
           $itemDeleted = OrderITem::find($item->id);
           $itemDeleted->delete();
           $order->save();
@@ -114,7 +114,7 @@ class OrderController extends Controller
         break;
       case 'minor':
         //order request items are minor of order saved items
-        foreach($orderRequest->deleted_items as $item):
+        foreach ($orderRequest->deleted_items as $item):
           $itemDeleted = OrderITem::find($item->id);
           $itemDeleted->delete();
           $order->save();
@@ -124,18 +124,14 @@ class OrderController extends Controller
             $this->updateOrderItem($item);
           endif;
           if ($item->id === null):
-            $order->items()->create([
-              'price' => $item->price,
-              'quantity' => $item->quantity,
-              'product_id' => $item->product->id
-            ])->save();
+            $this->createOrderItem($order, $item);
           endif;
         endforeach;
-        
+
         break;
       case 'equals':
         //order request items are equals of order saved items
-        foreach($orderRequest->deleted_items as $item):
+        foreach ($orderRequest->deleted_items as $item):
           $itemDeleted = OrderITem::find($item->id);
           $itemDeleted->delete();
           $order->save();
@@ -145,11 +141,7 @@ class OrderController extends Controller
             $this->updateOrderItem($item);
           endif;
           if ($item->id === null):
-            $order->items()->create([
-              'price' => $item->price,
-              'quantity' => $item->quantity,
-              'product_id' => $item->product->id
-            ])->save();
+            $this->createOrderItem($order, $item);
           endif;
         endforeach;
         break;
@@ -163,6 +155,13 @@ class OrderController extends Controller
     $itemSaved->price = $item->price;
     $itemSaved->save();
   }
+
+  private function createOrderItem(Order $order, $item){
+    $order->items()->create([
+      'price' => $item->price,
+      'quantity' => $item->quantity,
+      'product_id' => $item->product->id
+    ])->save();
   }
 
   public function cancel(UpdateOrderRequest $request)
