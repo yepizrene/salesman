@@ -146,6 +146,8 @@ class OrderController extends Controller
         endforeach;
         break;
     endswitch;
+
+    return Redirect::route('orders.index')->with('message', 'Order updated correctly!');
   }
 
   private function updateOrderItem($item)
