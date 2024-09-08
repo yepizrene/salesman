@@ -173,7 +173,7 @@ const number_format = (number, decimals, dec_point, thousands_sep) => {
                   <td class="px-6 py-4 flex gap-2">
                     <input type="number" v-model="item.quantity" :disabled="(order.status)?'disabled':''" min="1" @change="updateItemQuantity(item)"
                       class="border-gray-300 rounded-md shadow-sm text-sm w-16 font-extrabold" />
-                    <danger-button v-if="!order.status" @click="deleteItem(item)" class="text-xs w-14 px-0 py-0">
+                    <danger-button v-if="!canceled" @click="deleteItem(item)" class="text-xs w-14 px-0 py-0">
                       <trash-icon class="w-full"/>
                     </danger-button>
                   </td>
