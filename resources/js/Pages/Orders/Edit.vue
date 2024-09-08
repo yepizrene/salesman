@@ -11,6 +11,7 @@ import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps(['order', 'products']);
 const modalOpen = ref(false);
+const canceled = ref(!props.order.status);
 
 const order = useForm({
   _method: 'PUT',
@@ -131,7 +132,7 @@ const number_format = (number, decimals, dec_point, thousands_sep) => {
 </script>
 
 <template>
-  <AppLayout title="Edit order">
+  <AppLayout title="Edit order" :class="{ canceled: canceled }">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         <nav-link :href="route('orders.index')" class="font-semibold text-xl text-blueberry-600 leading-tight">
@@ -170,9 +171,9 @@ const number_format = (number, decimals, dec_point, thousands_sep) => {
                     {{ item.product.name }}
                   </th>
                   <td class="px-6 py-4 flex gap-2">
-                    <input type="number" v-model="item.quantity" min="1" @change="updateItemQuantity(item)"
+                    <input type="number" v-model="item.quantity" :disabled="(order.status)?'disabled':''" min="1" @change="updateItemQuantity(item)"
                       class="border-gray-300 rounded-md shadow-sm text-sm w-16 font-extrabold" />
-                    <danger-button type="button" @click="deleteItem(item)" class="text-xs w-14 px-0 py-0">
+                    <danger-button v-if="!order.status" @click="deleteItem(item)" class="text-xs w-14 px-0 py-0">
                       <trash-icon class="w-full"/>
                     </danger-button>
                   </td>
@@ -224,7 +225,7 @@ const number_format = (number, decimals, dec_point, thousands_sep) => {
           </div>
           <div class="h-36 flex items-center justify-between col-span-3 border rounded-xl p-2">
             <h1 class="font-bold text-5xl w-2/5"> $ {{ number_format(order.total, 2) }}</h1>
-            <primary-button @click="saveOrder"
+            <primary-button v-if="order.status" @click="saveOrder"
               class="w-2/5 h-1/2 !text-2xl flex items-center justify-center !font-extrabold bg-green-800 hover:bg-green-700 focus:bg-green-700 active:bg-green-900 focus:ring-green-900">
               <SaveIcon class="h-full mr-2" /> Update order
             </primary-button>
