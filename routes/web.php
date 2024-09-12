@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Redirect;
@@ -33,6 +34,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', config('jetstream.auth_sessi
   Route::resource('products', ProductController::class);
   Route::resource('orders', OrderController::class);
   Route::resource('permissions', PermissionController::class);
+  Route::resource('roles', RoleController::class);
   Route::post('orders/cancel', [OrderController::class,"cancel"])->name('orders.cancel');
 });
 
