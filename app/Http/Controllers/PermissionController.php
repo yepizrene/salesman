@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PermissionController extends Controller
 {
@@ -12,9 +13,9 @@ class PermissionController extends Controller
    */
   public function index()
   {
-    $permissions = Permission::all();
+    $permissions = Permission::paginate(5);
     
-    return $permissions;
+    return Inertia::render('Security/Permissions', compact('permissions'));
   }
 
   /**
