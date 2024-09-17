@@ -40,7 +40,7 @@
                 </td>
               </tr>
               <tr v-if="permissions.data.length === 0">
-                <td class="px-6 py-4 border-t" colspan="4">No users found.</td>
+                <td class="px-6 py-4 border-t" colspan="4">No items found.</td>
               </tr>
             </table>
             <pagination class="mt-6 flex justify-center items-center" :links="permissions.links" />
