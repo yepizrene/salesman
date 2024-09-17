@@ -25,6 +25,8 @@
               <tr class="text-left font-bold">
                 <th class="pb-4 pt-6 px-6">Id</th>
                 <th class="pb-4 pt-6 px-6">Name</th>
+                <th class="pb-4 pt-6 px-6">Permissions</th>
+                <th class="pb-4 pt-6 px-6">Actions</th>
               </tr>
               <tr v-for="role in roles.data" :key="role.id"
                 class="hover:bg-gray-100 focus-within:bg-gray-100">
@@ -36,6 +38,16 @@
                 <td class="border-t">
                   <Link class="flex items-center px-6 py-4" :href="route('roles.edit', { 'role': role })" tabindex="-1">
                   {{ role.name }}
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('roles.edit', { 'role': role })" tabindex="-1">
+                    <span v-for="permission in role.permissions" :key="permission.id">{{ permission.name }}</span>
+                  </Link>
+                </td>
+                <td class="border-t">
+                  <Link class="flex items-center px-6 py-4" :href="route('roles.edit', { 'role': role })" tabindex="-1">
+                  
                   </Link>
                 </td>
               </tr>
