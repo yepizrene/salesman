@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
@@ -12,6 +13,8 @@ class RoleController extends Controller
    */
   public function index()
   {
+    $roles = Role::select('id','name')->with('permissions')->orderByDesc('id')->paginate(10);
+    return Inertia::render('Security/Roles',compact('roles'));
     //
   }
 
