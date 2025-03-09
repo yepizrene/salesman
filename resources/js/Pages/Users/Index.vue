@@ -57,7 +57,7 @@ const createUser = () => {
                   </Link>
                 </td>
               </tr>
-              <tr v-if="users.length === 0">
+              <tr v-if="users.data.length === 0">
                 <td class="px-6 py-4 border-t" colspan="4">No users found.</td>
               </tr>
             </table>
